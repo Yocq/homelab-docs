@@ -1,0 +1,24 @@
+# Secretos y variables de entorno
+.env
+*.env
+!*.env.example
+
+# Claves y certificados
+*.key
+*.pem
+*.crt
+*.p12
+
+# Datos persistentes de servicios (nunca se versionan)
+data/
+letsencrypt/
+appdata/
+
+# Sistema
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Exportes temporales de diagramas
+*.bkp
+*.drawio.dtmp
