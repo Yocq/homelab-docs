@@ -11,7 +11,7 @@ Laboratorio de infraestructura doméstico sobre **Proxmox VE**, operado como un 
 ```mermaid
 flowchart LR
     internet((Internet))
-    cf[Cloudflare<br/>Tunnel + Access]
+    cf[Cloudflare<br/>Tunnel · Access · WAF]
     ts[Tailscale<br/>tailnet]
 
     subgraph lan[LAN 192.168.100.0/24]
@@ -39,7 +39,9 @@ flowchart LR
 
 **Dos caminos de entrada, con propósitos distintos:**
 
-- **Cloudflare Tunnel + Cloudflare Access**: publica en Internet solo las aplicaciones web pensadas para uso diario (Nextcloud y Homepage). No hay puertos abiertos en el router, algo necesario porque la conexión está detrás de CGNAT, y cada acceso pasa antes por autenticación con Google.
+- **Cloudflare Tunnel**: publica en Internet solo las aplicaciones web de uso diario (Nextcloud y Homepage). No hay puertos abiertos en el router, algo necesario porque la conexión está detrás de CGNAT.
+  - **Homepage** está detrás de **Cloudflare Access**: antes de llegar al panel se exige autenticación con Google.
+  - **Nextcloud** usa su propio inicio de sesión con **2FA** y una **regla WAF de Cloudflare** que solo admite tráfico desde Chile. Access se retiró porque impedía iniciar sesión con los clientes móvil.
 - **Tailscale (subnet router)**: administración remota. Proxmox, SSH, Samba y los paneles de administración **no** se publican en Internet; se alcanzan por VPN como si estuviera en la LAN.
 
 ## Hardware
@@ -56,10 +58,10 @@ flowchart LR
 
 | Servicio | Plataforma | Función | Acceso |
 |---|---|---|---|
-| Pi-hole | VM Docker | DNS interno, filtrado, wildcard `*.lab` | LAN / Tailscale |
+| [Pi-hole](services/pihole/) | VM Docker | DNS interno, filtrado, wildcard `*.lab` | LAN / Tailscale |
 | Uptime Kuma | VM Docker | Monitoreo de disponibilidad | LAN / Tailscale |
 | Portainer | VM Docker | Administración de Docker | LAN / Tailscale |
-| Nextcloud + MariaDB | VM Docker | Almacenamiento y colaboración | Internet (Access) |
+| Nextcloud + MariaDB | VM Docker | Almacenamiento y colaboración | Internet (login + 2FA, WAF Chile) |
 | Homepage | VM Docker | Panel de accesos | Internet (Access) |
 | Nginx Proxy Manager | LXC | Reverse proxy por nombre de host | LAN / Tailscale |
 | Samba | LXC | Recursos SMB para Windows y Nextcloud | LAN / Tailscale |
@@ -70,7 +72,7 @@ flowchart LR
 
 - **Docker dentro de una VM, no en el host.** El hipervisor queda limpio y la VM se puede respaldar, restaurar o reemplazar como una unidad.
 - **Servicios de borde en LXC separados** (proxy, túnel, VPN). Siguen funcionando aunque la VM de aplicaciones se reinicie.
-- **Cloudflare Tunnel en lugar de abrir puertos.** Funciona bajo CGNAT, no expone la IP del hogar y permite poner autenticación delante con Cloudflare Access.
+- **Cloudflare Tunnel en lugar de abrir puertos.** Funciona bajo CGNAT, no expone la IP del hogar y permite agregar controles en el borde (Access, WAF) sin tocar el servidor.
 - **Tailscale para administrar, no el túnel.** Las interfaces de administración nunca quedan publicadas en Internet.
 - **SSD para cargas activas, HDD para datos y respaldos.** El SSD queda reservado para lo que necesita baja latencia.
 
@@ -79,6 +81,8 @@ flowchart LR
 Casos reales encontrados durante el montaje, documentados como problema → diagnóstico → causa → solución.
 
 - [Docker no puede montar overlay dentro de un LXC](docs/troubleshooting/docker-overlay-en-lxc.md)
+- [La contraseña definida en el compose no funciona en Pi-hole](docs/troubleshooting/pihole-contrasena-web.md)
+- [Pi-hole ignora las consultas DNS de la LAN ("non-local network")](docs/troubleshooting/pihole-non-local-network.md)
 
 ## Roadmap
 
@@ -86,7 +90,7 @@ Casos reales encontrados durante el montaje, documentados como problema → diag
 - [x] Proxmox VE con ZFS (compresión LZ4, autotrim) e HDD integrado como almacenamiento
 - [x] VM Docker con Pi-hole, Uptime Kuma, Portainer, Nextcloud y Homepage
 - [x] Reverse proxy con resolución wildcard en Pi-hole
-- [x] Acceso remoto: Cloudflare Tunnel + Access y Tailscale con subnet routing
+- [x] Acceso remoto: Cloudflare Tunnel (Access en Homepage, 2FA + WAF en Nextcloud) y Tailscale con subnet routing
 
 **Siguiente**
 - [ ] Respaldos de todos los LXC con política de retención
@@ -101,7 +105,8 @@ Casos reales encontrados durante el montaje, documentados como problema → diag
 ├── README.md
 ├── docs/
 │   └── troubleshooting/   # casos documentados + plantilla
-└── services/              # (en construcción) un directorio por servicio
+└── services/              # un directorio por servicio: README, compose.yaml, .env.example
+    └── pihole/
 ```
 
 > Credenciales, tokens y archivos `.env` no se versionan. Cada servicio incluirá un `.env.example` con las variables necesarias.
