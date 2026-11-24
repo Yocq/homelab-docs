@@ -59,7 +59,7 @@ flowchart LR
 | Servicio | Plataforma | Función | Acceso |
 |---|---|---|---|
 | [Pi-hole](services/pihole/) | VM Docker | DNS interno, filtrado, wildcard `*.lab` | LAN / Tailscale |
-| Uptime Kuma | VM Docker | Monitoreo de disponibilidad | LAN / Tailscale |
+| [Uptime Kuma](services/uptime-kuma/) | VM Docker | Monitoreo de disponibilidad | LAN / Tailscale |
 | Portainer | VM Docker | Administración de Docker | LAN / Tailscale |
 | Nextcloud + MariaDB | VM Docker | Almacenamiento y colaboración | Internet (login + 2FA, WAF Chile) |
 | Homepage | VM Docker | Panel de accesos | Internet (Access) |
@@ -106,7 +106,8 @@ Casos reales encontrados durante el montaje, documentados como problema → diag
 ├── docs/
 │   └── troubleshooting/   # casos documentados + plantilla
 └── services/              # un directorio por servicio: README, compose.yaml, .env.example
-    └── pihole/
+    ├── pihole/
+    └── uptime-kuma/
 ```
 
 > Credenciales, tokens y archivos `.env` no se versionan. Cada servicio incluirá un `.env.example` con las variables necesarias.
