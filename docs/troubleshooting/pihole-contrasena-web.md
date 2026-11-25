@@ -5,7 +5,7 @@
 | **Componente** | Pi-hole v6 en la VM Docker |
 | **Síntoma** | La contraseña de `WEBPASSWORD` en el compose es rechazada en el panel web |
 | **Solución aplicada** | `pihole setpassword` dentro del contenedor; luego, la variable correcta de v6 |
-| **Estado** | Resuelto |
+| **Estado** | Resuelto en la práctica; el compose sigue con la variable de v5 (pendiente) |
 
 ## Contexto
 
@@ -50,9 +50,9 @@ docker exec -it pihole pihole setpassword
 
 La contraseña se guarda como hash en `/etc/pihole/pihole.toml`. Como ese directorio es un volumen persistente, el cambio sobrevive a reinicios y a la recreación del contenedor.
 
-### Solución definitiva
+### Solución definitiva (pendiente)
 
-Usar la variable de v6, con la contraseña en un `.env` que no se versiona:
+Todavía no está aplicada. Consiste en usar la variable de v6, con la contraseña en un `.env` que no se versiona:
 
 ```yaml
 environment:
@@ -65,7 +65,7 @@ docker compose up -d     # recrea el contenedor con la nueva variable
 
 ## Resultado
 
-El acceso al panel funciona con la contraseña definida, y el compose refleja la configuración real.
+El acceso al panel funciona con la contraseña definida con `pihole setpassword`. El compose desplegado todavía conserva `WEBPASSWORD`, que no tiene efecto; actualizarlo está en los pendientes de la [guía de Pi-hole](../../services/pihole/README.md#otros-pendientes).
 
 ## Aprendizajes
 
