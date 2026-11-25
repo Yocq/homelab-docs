@@ -166,6 +166,10 @@ docker compose up -d
 
 Con `vfs`, cada imagen nueva ocupa varias veces su tamaño normal. Antes de actualizar, revisa el espacio con `df -h /` y borra las imágenes viejas con `docker image prune`.
 
+## Problemas conocidos
+
+- [Docker no puede montar overlay dentro de un LXC](../../docs/troubleshooting/docker-overlay-en-lxc.md): por qué este LXC usa `vfs` y necesita 25 GB de disco.
+
 ## Limitaciones
 
 - **LXC privilegiado expuesto:** este contenedor recibe el tráfico que entra desde Internet por el túnel. Un contenedor privilegiado comparte el root con el host, así que un compromiso de NPM tendría más impacto que en un LXC sin privilegios.

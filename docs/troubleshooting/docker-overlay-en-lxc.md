@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Componente** | LXC de Nginx Proxy Manager (Debian, privilegiado, nesting activado) |
+| **Componente** | LXC de Nginx Proxy Manager (Debian, privilegiado, nesting activado) — [guía](../../services/nginx-proxy-manager/README.md) |
 | **Síntoma** | `docker compose up -d` descarga la imagen, pero el contenedor no inicia |
 | **Solución aplicada** | Cambiar el storage driver de Docker a `vfs` y ampliar el disco del LXC |
 | **Estado** | Funciona, como solución provisional (ver [Pendiente](#pendiente)) |
