@@ -110,6 +110,8 @@ Hay dos tipos de nombre:
 - **`.yocolab`**: servicios de administración, solo accesibles desde la LAN o por Tailscale. Los resuelve Pi-hole.
 - **`.yocolab.dev`**: servicios publicados en Internet por el túnel de Cloudflare, sobre el dominio público.
 
+> **Decisión:** `.yocolab` no es un dominio reservado para uso local, como `home.arpa` (RFC 8375) o un subdominio propio (`lan.yocolab.dev`). Se mantiene de forma intencional: funciona en la red actual y no está previsto migrarlo.
+
 | Nombre | Destino | Opciones |
 |---|---|---|
 | `kuma.yocolab` | `http://192.168.100.4:3001` | Websockets Support, Block Common Exploits |

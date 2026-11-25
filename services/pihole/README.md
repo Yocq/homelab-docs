@@ -150,5 +150,6 @@ No se usa Docker dentro del LXC para no repetir los problemas del LXC de Nginx P
 
 ### Otros pendientes
 
+- [ ] Completar la lista de servidores DNS upstream.
 - [ ] Fijar la versión de la imagen (o del paquete, tras migrar) en lugar de `latest`.
 - [ ] Incluir la configuración de Pi-hole en la estrategia de respaldos (exportación periódica con Teleporter).
