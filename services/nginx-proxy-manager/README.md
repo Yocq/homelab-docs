@@ -181,7 +181,6 @@ Con `vfs`, cada imagen nueva ocupa varias veces su tamaño normal. Antes de actu
 ## Pendiente
 
 - [ ] **Sacar NPM de un LXC privilegiado con `vfs`.** Opciones evaluadas en el [caso de overlay](../../docs/troubleshooting/docker-overlay-en-lxc.md#pendiente): un LXC sin privilegios con `overlay2` (hipótesis por probar), `fuse-overlayfs`, o moverlo a la VM Docker.
-- [ ] Evaluar un dominio interno reservado: `home.arpa` (RFC 8375) o un subdominio propio como `lan.yocolab.dev`. Un TLD inventado como `.yocolab` funciona, pero no está reservado para uso local.
 - [ ] Unificar el criterio de las rutas del túnel: todas por NPM o todas directas.
 - [ ] Monitor en Uptime Kuma para NPM.
 - [ ] Fijar la versión de la imagen.
