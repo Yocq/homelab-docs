@@ -66,7 +66,7 @@ flowchart LR
 | [Nginx Proxy Manager](services/nginx-proxy-manager/) | LXC | Reverse proxy por nombre de host | LAN / Tailscale |
 | Samba | LXC | Recursos SMB para Windows y Nextcloud | LAN / Tailscale |
 | cloudflared | LXC sin privilegios | Conector del túnel de Cloudflare | — |
-| Tailscale | LXC sin privilegios | VPN y subnet router de la LAN | — |
+| [Tailscale](services/tailscale/) | LXC sin privilegios | VPN y subnet router de la LAN | — |
 
 ## Decisiones de diseño
 
@@ -83,6 +83,8 @@ Casos reales encontrados durante el montaje, documentados como problema → diag
 - [Docker no puede montar overlay dentro de un LXC](docs/troubleshooting/docker-overlay-en-lxc.md)
 - [La contraseña definida en el compose no funciona en Pi-hole](docs/troubleshooting/pihole-contrasena-web.md)
 - [Pi-hole ignora las consultas DNS de la LAN ("non-local network")](docs/troubleshooting/pihole-non-local-network.md)
+- [Tailscale no inicia en un LXC sin privilegios (`/dev/net/tun`)](docs/troubleshooting/tailscale-dev-net-tun.md)
+- [Se pierde el acceso remoto: clave del subnet router de Tailscale expirada](docs/troubleshooting/tailscale-clave-expirada.md)
 
 ## Roadmap
 
@@ -108,6 +110,7 @@ Casos reales encontrados durante el montaje, documentados como problema → diag
 └── services/              # un directorio por servicio: README, compose.yaml, .env.example
     ├── nginx-proxy-manager/
     ├── pihole/
+    ├── tailscale/
     └── uptime-kuma/
 ```
 
