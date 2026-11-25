@@ -63,7 +63,7 @@ flowchart LR
 | Portainer | VM Docker | Administración de Docker | LAN / Tailscale |
 | Nextcloud + MariaDB | VM Docker | Almacenamiento y colaboración | Internet (login + 2FA, WAF Chile) |
 | Homepage | VM Docker | Panel de accesos | Internet (Access) |
-| Nginx Proxy Manager | LXC | Reverse proxy por nombre de host | LAN / Tailscale |
+| [Nginx Proxy Manager](services/nginx-proxy-manager/) | LXC | Reverse proxy por nombre de host | LAN / Tailscale |
 | Samba | LXC | Recursos SMB para Windows y Nextcloud | LAN / Tailscale |
 | cloudflared | LXC sin privilegios | Conector del túnel de Cloudflare | — |
 | Tailscale | LXC sin privilegios | VPN y subnet router de la LAN | — |
@@ -106,6 +106,7 @@ Casos reales encontrados durante el montaje, documentados como problema → diag
 ├── docs/
 │   └── troubleshooting/   # casos documentados + plantilla
 └── services/              # un directorio por servicio: README, compose.yaml, .env.example
+    ├── nginx-proxy-manager/
     ├── pihole/
     └── uptime-kuma/
 ```
