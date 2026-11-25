@@ -52,7 +52,7 @@ Con la red **bridge** de Docker, la única interfaz del contenedor está en la r
 
 En el panel: **Settings → DNS → Interface settings → Permit all origins**.
 
-El equivalente en el compose, para que la configuración se pueda reproducir:
+Es el cambio que se aplicó, y queda guardado en `pihole.toml`. El equivalente en el compose, que permitiría reproducirlo sin pasar por la interfaz, todavía no está aplicado (ver pendientes de la [guía](../../services/pihole/README.md#otros-pendientes)):
 
 ```yaml
 environment:
