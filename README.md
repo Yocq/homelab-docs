@@ -58,7 +58,7 @@ flowchart LR
 
 | Servicio | Plataforma | Función | Acceso |
 |---|---|---|---|
-| [Pi-hole](services/pihole/) | VM Docker | DNS interno, filtrado, wildcard `*.lab` | LAN / Tailscale |
+| [Pi-hole](services/pihole/) | VM Docker | DNS interno, filtrado, wildcard `*.yocolab` | LAN / Tailscale |
 | [Uptime Kuma](services/uptime-kuma/) | VM Docker | Monitoreo de disponibilidad | LAN / Tailscale |
 | Portainer | VM Docker | Administración de Docker | LAN / Tailscale |
 | Nextcloud + MariaDB | VM Docker | Almacenamiento y colaboración | Internet (login + 2FA, WAF Chile) |

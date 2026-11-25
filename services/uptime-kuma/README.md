@@ -7,7 +7,7 @@ Monitoreo de disponibilidad de los servicios del laboratorio. Comprueba cada ser
 | **Plataforma** | VM Docker — `192.168.100.4` |
 | **Puerto** | `3001` (web) |
 | **Persistencia** | `/opt/docker/uptime-kuma/uptime-kuma` → `/app/data` |
-| **Acceso** | `http://192.168.100.4:3001` · `http://kuma.lab` (vía Nginx Proxy Manager) |
+| **Acceso** | `http://192.168.100.4:3001` · `http://kuma.yocolab` (vía Nginx Proxy Manager) |
 
 ## Por qué Uptime Kuma
 
@@ -48,7 +48,7 @@ Abre `http://192.168.100.4:3001` y crea el usuario administrador.
 
 ### 5. Publicación por nombre (opcional)
 
-En Nginx Proxy Manager se crea el proxy host `kuma.lab` → `http://192.168.100.4:3001` con **Websockets Support** activado. Uptime Kuma actualiza el estado de los monitores en tiempo real por WebSockets; sin esa opción el panel carga, pero no se actualiza.
+En Nginx Proxy Manager se crea el proxy host `kuma.yocolab` → `http://192.168.100.4:3001` con **Websockets Support** activado. Uptime Kuma actualiza el estado de los monitores en tiempo real por WebSockets; sin esa opción el panel carga, pero no se actualiza.
 
 ## Monitores
 

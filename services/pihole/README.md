@@ -60,14 +60,12 @@ docker compose ps        # estado esperado: running (healthy)
 
 ### 4. Registros DNS locales
 
-<!-- TODO: confirmar si los nombres internos siguen siendo .lab o pasaron a .yocolab.dev -->
-
 Todos los nombres internos apuntan al reverse proxy (Nginx Proxy Manager, `192.168.100.5`). Por eso se usa un registro comodín en lugar de un registro por servicio:
 
 **Settings → All settings** (modo *Expert*) **→ Miscellaneous → `misc.dnsmasq_lines`:**
 
 ```
-address=/.lab/192.168.100.5
+address=/*.yocolab/192.168.100.5
 ```
 
 La directiva `address=/dominio/IP` de dnsmasq responde esa IP para el dominio y todos sus subdominios.
@@ -83,7 +81,7 @@ Desde un equipo Windows de la LAN (PowerShell):
 Resolve-DnsName google.com -Server 192.168.100.4
 
 # El comodín: un nombre que no existe en ningún registro debe devolver la IP del proxy
-Resolve-DnsName prueba.lab -Server 192.168.100.4     # → 192.168.100.5
+Resolve-DnsName prueba.yocolab -Server 192.168.100.4     # → 192.168.100.5
 ```
 
 En el panel, **Query Log** debe mostrar esas consultas con la IP del cliente.
@@ -120,7 +118,7 @@ docker compose up -d
 
 ### Migrar a un LXC propio (planificado)
 
-**Motivo.** El DNS es el servicio del que más depende el laboratorio: la navegación de la LAN, los clientes de Tailscale, el comodín `.lab` y el propio Nextcloud, que usa Pi-hole como DNS. Hoy un reinicio de la VM Docker deja sin resolución a todos esos clientes. Moverlo a un LXC aplica el mismo criterio que ya se usa con el proxy, el túnel y la VPN: los servicios de infraestructura no dependen de la VM de aplicaciones.
+**Motivo.** El DNS es el servicio del que más depende el laboratorio: la navegación de la LAN, los clientes de Tailscale, el comodín `*.yocolab` y el propio Nextcloud, que usa Pi-hole como DNS. Hoy un reinicio de la VM Docker deja sin resolución a todos esos clientes. Moverlo a un LXC aplica el mismo criterio que ya se usa con el proxy, el túnel y la VPN: los servicios de infraestructura no dependen de la VM de aplicaciones.
 
 **Diseño previsto:**
 
@@ -153,6 +151,5 @@ No se usa Docker dentro del LXC para no repetir los problemas del LXC de Nginx P
 ### Otros pendientes
 
 - [ ] Completar la lista de servidores DNS upstream.
-- [ ] Confirmar si los nombres internos siguen siendo `.lab` o pasaron a `.yocolab.dev`, y documentar el registro de `pihole.yocolab`.
 - [ ] Fijar la versión de la imagen (o del paquete, tras migrar) en lugar de `latest`.
 - [ ] Incluir la configuración de Pi-hole en la estrategia de respaldos (exportación periódica con Teleporter).
