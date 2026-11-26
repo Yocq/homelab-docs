@@ -46,6 +46,8 @@ flowchart LR
 
 ## Hardware
 
+Instalación y configuración del nodo: [guía de Proxmox base](docs/proxmox-base.md).
+
 | Componente | Detalle |
 |---|---|
 | Equipo | Lenovo ThinkCentre M75q-1 (mini-PC) |
@@ -106,6 +108,7 @@ Casos reales encontrados durante el montaje, documentados como problema → diag
 .
 ├── README.md
 ├── docs/
+│   ├── proxmox-base.md    # instalación y configuración del hipervisor
 │   └── troubleshooting/   # casos documentados + plantilla
 └── services/              # un directorio por servicio: README, compose.yaml, .env.example
     ├── nginx-proxy-manager/
