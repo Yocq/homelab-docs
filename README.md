@@ -9,33 +9,42 @@ Laboratorio de infraestructura doméstico sobre **Proxmox VE**, operado como un 
 ## Arquitectura
 
 ```mermaid
+%%{init: {"flowchart": {"curve": "step", "nodeSpacing": 30, "rankSpacing": 50}}}%%
 flowchart LR
     internet((Internet))
-    cf[Cloudflare<br/>Tunnel · Access · WAF]
-    ts[Tailscale<br/>tailnet]
+    cf["Cloudflare<br/>Tunnel · Access · WAF"]
+    ts["Tailscale<br/>dispositivos remotos"]
 
-    subgraph lan[LAN 192.168.100.0/24]
-        subgraph pve[Proxmox VE · 192.168.100.2]
-            cfd[LXC cloudflared]
-            npm[LXC Nginx Proxy Manager<br/>.5]
-            tsr[LXC Tailscale<br/>subnet router · .7]
-            smb[LXC Samba<br/>.6]
-            subgraph vm[VM Docker · .4]
-                pihole[Pi-hole]
-                kuma[Uptime Kuma]
-                nc[Nextcloud + MariaDB]
-                home[Homepage]
-                port[Portainer]
-            end
+    clientes["Clientes LAN<br/>192.168.100.0/24"]
+    subgraph pve["Proxmox VE · 192.168.100.2"]
+        cfd["LXC cloudflared<br/>.3"]
+        npm["LXC Nginx Proxy Manager<br/>.5"]
+        tsr["LXC Tailscale<br/>subnet router · .7"]
+        smb["LXC Samba<br/>.6"]
+        subgraph vm["VM Docker · .4"]
+            home[Homepage]
+            nc["Nextcloud + MariaDB"]
+            kuma[Uptime Kuma]
+            port[Portainer]
+            pihole[Pi-hole]
         end
     end
 
-    internet --> cf --> cfd --> npm
+    internet --> cf --> cfd
+    cfd -->|home.yocolab.dev| home
+    cfd -->|nextcloud.yocolab.dev| npm
     npm --> nc
-    cfd --> home
-    ts --> tsr --> lan
-    nc -- SMB --> smb
+    nc -->|SMB| smb
+    clientes -.->|"*.yocolab"| npm
+    npm -.-> kuma & port & pihole
+    clientes -.->|DNS| pihole
+    ts -.-> tsr -.->|acceso a la LAN| clientes
 ```
+
+Líneas continuas: tráfico que entra desde Internet por el túnel. Líneas punteadas: uso desde la LAN o por Tailscale.
+
+> [!NOTE]
+> Este diagrama se reemplazará por uno hecho en Visio.
 
 **Dos caminos de entrada, con propósitos distintos:**
 
@@ -46,7 +55,7 @@ flowchart LR
 
 ## Hardware
 
-Instalación y configuración del nodo: [guía de Proxmox base](docs/proxmox-base.md).
+Instalación y configuración: [Proxmox base](docs/proxmox-base.md) · [VM Docker](docs/vm-docker.md).
 
 | Componente | Detalle |
 |---|---|
@@ -62,7 +71,7 @@ Instalación y configuración del nodo: [guía de Proxmox base](docs/proxmox-bas
 |---|---|---|---|
 | [Pi-hole](services/pihole/) | VM Docker | DNS interno, filtrado, wildcard `*.yocolab` | LAN / Tailscale |
 | [Uptime Kuma](services/uptime-kuma/) | VM Docker | Monitoreo de disponibilidad | LAN / Tailscale |
-| Portainer | VM Docker | Administración de Docker | LAN / Tailscale |
+| [Portainer](docs/vm-docker.md#portainer) | VM Docker | Administración de Docker | LAN / Tailscale |
 | Nextcloud + MariaDB | VM Docker | Almacenamiento y colaboración | Internet (login + 2FA, WAF Chile) |
 | Homepage | VM Docker | Panel de accesos | Internet (Access) |
 | [Nginx Proxy Manager](services/nginx-proxy-manager/) | LXC | Reverse proxy por nombre de host | LAN / Tailscale |
@@ -101,6 +110,7 @@ Casos reales encontrados durante el montaje, documentados como problema → diag
 - [ ] Copia de los datos de usuario fuera del HDD y prueba de restauración
 - [ ] Alertas en Uptime Kuma en Telegram
 - [ ] Laboratorios de redes con Containerlab
+- [ ] Diagrama de arquitectura en Visio
 
 ## Estructura del repositorio
 
@@ -109,6 +119,7 @@ Casos reales encontrados durante el montaje, documentados como problema → diag
 ├── README.md
 ├── docs/
 │   ├── proxmox-base.md    # instalación y configuración del hipervisor
+│   ├── vm-docker.md       # VM de contenedores, Docker y Portainer
 │   └── troubleshooting/   # casos documentados + plantilla
 └── services/              # un directorio por servicio: README, compose.yaml, .env.example
     ├── nginx-proxy-manager/
