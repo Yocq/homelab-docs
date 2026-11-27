@@ -76,7 +76,7 @@ Instalación y configuración: [Proxmox base](docs/proxmox-base.md) · [VM Docke
 | Homepage | VM Docker | Panel de accesos | Internet (Access) |
 | [Nginx Proxy Manager](services/nginx-proxy-manager/) | LXC | Reverse proxy por nombre de host | LAN / Tailscale |
 | Samba | LXC | Recursos SMB para Windows y Nextcloud | LAN / Tailscale |
-| cloudflared | LXC sin privilegios | Conector del túnel de Cloudflare | — |
+| [cloudflared](services/cloudflared/) | LXC sin privilegios | Conector del túnel de Cloudflare | — |
 | [Tailscale](services/tailscale/) | LXC sin privilegios | VPN y subnet router de la LAN | — |
 
 ## Decisiones de diseño
@@ -96,6 +96,7 @@ Casos reales encontrados durante el montaje, documentados como problema → diag
 - [Pi-hole ignora las consultas DNS de la LAN ("non-local network")](docs/troubleshooting/pihole-non-local-network.md)
 - [Tailscale no inicia en un LXC sin privilegios (`/dev/net/tun`)](docs/troubleshooting/tailscale-dev-net-tun.md)
 - [Se pierde el acceso remoto: clave del subnet router de Tailscale expirada](docs/troubleshooting/tailscale-clave-expirada.md)
+- [Los clientes de Nextcloud no sincronizan con Cloudflare Access](docs/troubleshooting/nextcloud-clientes-cloudflare-access.md)
 
 ## Roadmap
 
@@ -122,6 +123,7 @@ Casos reales encontrados durante el montaje, documentados como problema → diag
 │   ├── vm-docker.md       # VM de contenedores, Docker y Portainer
 │   └── troubleshooting/   # casos documentados + plantilla
 └── services/              # un directorio por servicio: README, compose.yaml, .env.example
+    ├── cloudflared/
     ├── nginx-proxy-manager/
     ├── pihole/
     ├── tailscale/
