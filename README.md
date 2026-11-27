@@ -8,8 +8,6 @@ Laboratorio de infraestructura doméstico sobre **Proxmox VE**, operado como un 
 
 ## Arquitectura
 
-## Arquitectura
-
 ```mermaid
 %%{init: {"flowchart": {"curve": "step", "nodeSpacing": 30, "rankSpacing": 50}}}%%
 flowchart LR
@@ -43,9 +41,9 @@ flowchart LR
     ts -.-> tsr -.->|acceso a la LAN| clientes
 ```
 
-
 Líneas continuas: tráfico que entra desde Internet por el túnel. Líneas punteadas: uso desde la LAN o por Tailscale.
 
+> [!NOTE]
 > Este diagrama se reemplazará por uno hecho en Visio.
 
 **Dos caminos de entrada, con propósitos distintos:**
@@ -112,6 +110,7 @@ Casos reales encontrados durante el montaje, documentados como problema → diag
 - [ ] Copia de los datos de usuario fuera del HDD y prueba de restauración
 - [ ] Alertas en Uptime Kuma en Telegram
 - [ ] Laboratorios de redes con Containerlab
+- [ ] Diagrama de arquitectura en Visio
 
 ## Estructura del repositorio
 
