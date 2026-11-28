@@ -75,7 +75,7 @@ Instalación y configuración: [Proxmox base](docs/proxmox-base.md) · [VM Docke
 | Nextcloud + MariaDB | VM Docker | Almacenamiento y colaboración | Internet (login + 2FA, WAF Chile) |
 | Homepage | VM Docker | Panel de accesos | Internet (Access) |
 | [Nginx Proxy Manager](services/nginx-proxy-manager/) | LXC | Reverse proxy por nombre de host | LAN / Tailscale |
-| Samba | LXC | Recursos SMB para Windows y Nextcloud | LAN / Tailscale |
+| [Samba](services/samba/) | LXC | Recursos SMB para Windows y Nextcloud | LAN / Tailscale |
 | [cloudflared](services/cloudflared/) | LXC sin privilegios | Conector del túnel de Cloudflare | — |
 | [Tailscale](services/tailscale/) | LXC sin privilegios | VPN y subnet router de la LAN | — |
 
@@ -126,6 +126,7 @@ Casos reales encontrados durante el montaje, documentados como problema → diag
     ├── cloudflared/
     ├── nginx-proxy-manager/
     ├── pihole/
+    ├── samba/
     ├── tailscale/
     └── uptime-kuma/
 ```
